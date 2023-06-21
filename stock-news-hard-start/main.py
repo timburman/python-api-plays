@@ -1,6 +1,10 @@
 import requests
 import warnings
 warnings.filterwarnings(action='ignore')
+import smtplib
+
+EMAIL = "pythontutorials69@gmail.com"
+PASSWORD = "mbxmapngtkhvjkhw"
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -49,6 +53,17 @@ if diff_percentage > 5:
     data_news = news_connection.json()['articles']
     three_article = data_news[:3]
     descriptions = [x['description'] for x in three_article]
+
+    with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+        connection.starttls()
+        connection.login(user=EMAIL, password=PASSWORD)
+
+        connection.sendmail(
+            from_addr=EMAIL,
+            to_addrs='crplayer181102@gmail.com',
+            msg=f'Subject:Tesla News\n\n{descriptions}'
+        )
+
     
-    
+
 
