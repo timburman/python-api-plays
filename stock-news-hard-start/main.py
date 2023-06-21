@@ -36,28 +36,19 @@ print(yesterday_closing)
 day_before_yesterday_data = data_list[1]
 day_before_yesterday_closing = day_before_yesterday_data['4. close']
 
+# The Difference between the closing of yeasterday and day before yesterday
+difference = abs(float(yesterday_closing) - float(day_before_yesterday_closing))
 
+# Percentage of difference
+diff_percentage = (difference/float(yesterday_closing)) * 100
+print(diff_percentage)
 
-## STEP 2: Use https://newsapi.org/docs/endpoints/everything
-# Instead of printing ("Get News"), actually fetch the first 3 articles for the COMPANY_NAME. 
-#HINT 1: Think about using the Python Slice Operator
-
-
-
-## STEP 3: Use twilio.com/docs/sms/quickstart/python
-# Send a separate message with each article's title and description to your phone number. 
-#HINT 1: Consider using a List Comprehension.
-
-
-
-#Optional: Format the SMS message like this: 
-"""
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
+# If diff greater than 5%
+if diff_percentage > 5:
+    news_connection = requests.get(url=NEWS_ENDPOINT, params=news_parameters, verify=False)
+    data_news = news_connection.json()['articles']
+    three_article = data_news[:3]
+    descriptions = [x['description'] for x in three_article]
+    
+    
 
